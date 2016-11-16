@@ -1,0 +1,11 @@
+node_modules
+build
+dest
+logs
+.DS_Store
+launch.json
+logs/exam.log
+test.js
+.project
+.examinee.txt
+.result.txt
