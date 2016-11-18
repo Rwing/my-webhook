@@ -1,6 +1,7 @@
 var http = require('http')
 var createHandler = require('github-webhook-handler')
 var handler = createHandler({ path: '/webhook', secret: 'myhashsecret' })
+var git = require('simple-git');
 
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
@@ -14,11 +15,20 @@ handler.on('error', function (err) {
 })
 
 handler.on('push', function (event) {
-  console.log(event.payload)
-  console.log(event.payload.repository)
-  console.log('Received a push event for %s to %s',
-    event.payload.repository.name,
-    event.payload.ref)
+  var workingDirs = {
+    'Rwing/koajs.com': '/var/www/koajs.com'
+  };
+  if (workingDirs[event.payload.repository.full_name]) {
+    git(workingDirs[event.payload.repository.full_name])
+      .pull(function (err, update) {
+        if (update && update.summary.changes) {
+          //require('child_process').exec('npm restart');
+        }
+      });
+    console.log('Received a push event for %s to %s',
+      event.payload.repository.name,
+      event.payload.ref)
+  }
 })
 
 handler.on('issues', function (event) {

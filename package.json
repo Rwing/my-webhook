@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "github-webhook-handler": "^0.6.0"
+    "github-webhook-handler": "^0.6.0",
+    "simple-git": "^1.62.0"
   }
 }
